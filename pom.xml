@@ -1,18 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>uk.ac.standrews.cs</groupId>
 	<artifactId>common-pom</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
+
 	<properties>
 		<jdk.version>1.6</jdk.version>
-		<maven.repository.path></maven.repository.path>
 	</properties>
 
 	<organization>
 		<name>School of Computer Science</name>
-		<url>http://www.cs.st-andrews.ac.uk</url>
+		<url>http://cs.st-andrews.ac.uk</url>
 	</organization>
 
 	<licenses>
@@ -22,6 +24,7 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
 	<distributionManagement>
 		<repository>
 			<id>uk.ac.standrews.cs.maven.repository</id>
@@ -29,6 +32,7 @@
 			<url>file:///data/jenkins/remote_maven_repository/</url>
 		</repository>
 	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -71,13 +75,13 @@
 						<phase>verify</phase>
 						<goals>
 							<goal>jar</goal>
-							<goal>javadoc</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
 	<reporting>
 		<plugins>
 			<plugin>
@@ -92,6 +96,7 @@
 			</plugin>
 		</plugins>
 	</reporting>
+
 	<repositories>
 		<repository>
 			<id>uk.ac.standrews.cs.maven.repository</id>
@@ -99,6 +104,7 @@
 			<url>https://builds.cs.st-andrews.ac.uk/maven</url>
 		</repository>
 	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
