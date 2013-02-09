@@ -1,115 +1,114 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>uk.ac.standrews.cs</groupId>
-	<artifactId>common-pom</artifactId>
-	<version>1.0</version>
-	<packaging>pom</packaging>
+    <groupId>uk.ac.standrews.cs</groupId>
+    <artifactId>common-pom</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
 
-	<properties>
-		<jdk.version>1.6</jdk.version>
-	</properties>
+    <properties>
+        <jdk.version>1.6</jdk.version>
+    </properties>
 
-	<organization>
-		<name>School of Computer Science</name>
-		<url>http://cs.st-andrews.ac.uk</url>
-	</organization>
+    <organization>
+        <name>School of Computer Science</name>
+        <url>http://cs.st-andrews.ac.uk</url>
+    </organization>
 
-	<licenses>
-		<license>
-			<name>GNU General Public License 3.0</name>
-			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>GNU General Public License 3.0</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<distributionManagement>
-		<repository>
-			<id>uk.ac.standrews.cs.maven.repository</id>
-			<name>CS Maven Repository</name>
-			<url>file:///data/jenkins/remote_maven_repository/</url>
-		</repository>
-	</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>uk.ac.standrews.cs.maven.repository</id>
+            <name>CS Maven Repository</name>
+            <url>file:///data/jenkins/remote_maven_repository/</url>
+        </repository>
+    </distributionManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-					<showDeprecation>true</showDeprecation>
-					<showWarnings>true</showWarnings>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.7</version>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.5.2</version>
-				<configuration>
-                    <!--<findbugsXmlWithMessages>true</findbugsXmlWithMessages>-->
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
                     <findbugsXmlOutput>true</findbugsXmlOutput>
-					<xmlOutput>true</xmlOutput>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
+                    <xmlOutput>true</xmlOutput>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
-	<repositories>
-		<repository>
-			<id>uk.ac.standrews.cs.maven.repository</id>
-			<name>School of Computer Science Maven Repository at University of St Andrews</name>
-			<url>https://builds.cs.st-andrews.ac.uk/maven</url>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>uk.ac.standrews.cs.maven.repository</id>
+            <name>School of Computer Science Maven Repository at University of St Andrews</name>
+            <url>https://builds.cs.st-andrews.ac.uk/maven</url>
+        </repository>
+    </repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+        </dependency>
+    </dependencies>
 </project>
