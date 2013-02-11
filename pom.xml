@@ -10,7 +10,8 @@
 
 	<properties>
 		<jdk.version>1.6</jdk.version>
-		<checkstyle.config>https://builds.cs.st-andrews.ac.uk/job/hudson_tools/lastSuccessfulBuild/artifact/checkstyle/checkstyle-config.xml</checkstyle.config>
+<!-- 		<checkstyle.config>https://builds.cs.st-andrews.ac.uk/job/hudson_tools/lastSuccessfulBuild/artifact/checkstyle/checkstyle-config.xml</checkstyle.config> -->
+		<checkstyle.config>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml</checkstyle.config>
 	</properties>
 
 	<organization>
@@ -80,11 +81,14 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
-	</build>
-
-	<reporting>
-		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<configLocation>${checkstyle.config}</configLocation>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
@@ -94,12 +98,22 @@
 					<xmlOutput>true</xmlOutput>
 				</configuration>
 			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.5.2</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.9.1</version>
 				<configuration>
-					<configLocation>https://builds.cs.st-andrews.ac.uk/job/hudson_tools/lastSuccessfulBuild/artifact/checkstyle/checkstyle-config.xml</configLocation>
+					<configLocation>${checkstyle.config}</configLocation>
 				</configuration>
 			</plugin>
 		</plugins>
