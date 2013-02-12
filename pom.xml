@@ -31,14 +31,6 @@
         </license>
     </licenses>
 
-    <distributionManagement>
-        <repository>
-            <id>uk.ac.standrews.cs.maven.repository</id>
-            <name>CS Maven Repository</name>
-            <url>file:///data/jenkins/remote_maven_repository/</url>
-        </repository>
-    </distributionManagement>
-
     <build>
         <plugins>
             <plugin>
@@ -193,6 +185,15 @@
                     </plugin>
                 </plugins>
             </build>
+
+            <distributionManagement>
+                <repository>
+                    <id>uk.ac.standrews.cs.jenkins.distribution.managemenet</id>
+                    <name>Jenkins Distribution Management</name>
+                    <url>file:///data/jenkins/remote_maven_repository/</url>
+                </repository>
+            </distributionManagement>
+
         </profile>
     </profiles>
 </project>
