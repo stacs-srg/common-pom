@@ -15,7 +15,7 @@
         <checkstyle.config>
             http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml
         </checkstyle.config>
-        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <organization>
