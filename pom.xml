@@ -55,8 +55,8 @@
     <repositories>
         <repository>
             <id>uk.ac.standrews.cs.maven.repository</id>
-            <name>School of Computer Science Maven Repository at University of St Andrews</name>
-            <url>https://builds.cs.st-andrews.ac.uk/maven</url>
+            <name>School of Computer Science Maven Repository</name>
+            <url>http://maven.cs.st-andrews.ac.uk/</url>
         </repository>
     </repositories>
 
