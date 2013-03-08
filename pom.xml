@@ -124,6 +124,10 @@
 						<version>2.9</version>
 						<configuration>
 							<detectLinks>true</detectLinks>
+							<links>
+								<link>http://www.json.org/javadoc</link>
+								<link>http://junit.sourceforge.net/javadoc</link>
+							</links>
 						</configuration>
 						<executions>
 							<execution>
