@@ -129,6 +129,7 @@
 								<link>http://www.json.org/javadoc</link>
 								<link>http://junit.sourceforge.net/javadoc</link>
 							</links>
+							<aggregate>true</aggregate>
 						</configuration>
 						<executions>
 							<execution>
