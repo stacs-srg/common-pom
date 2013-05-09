@@ -78,14 +78,6 @@
 			<build>
 				<plugins>
 					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<!-- Skip tests since cobertura will run the tests; this is to prevent 
-								tests from running twice. -->
-							<skip>true</skip>
-						</configuration>
-					</plugin>
-					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
 						<version>3.0</version>
@@ -195,10 +187,11 @@
 						</configuration>
 						<executions>
 							<execution>
-								<phase>package</phase>
+								<phase>test</phase>
 								<goals>
 									<goal>cobertura</goal>
 								</goals>
+								
 							</execution>
 						</executions>
 					</plugin>
