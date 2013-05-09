@@ -10,7 +10,7 @@
 
 	<properties>
 		<jdk.version>1.6</jdk.version>
-		
+
 		<!-- HTTPS doesn't work, that's why used the URL from quicksilver. -->
 		<!-- <checkstyle.config>https://builds.cs.st-andrews.ac.uk/job/hudson_tools/lastSuccessfulBuild/artifact/checkstyle/checkstyle-config.xml</checkstyle.config> -->
 		<checkstyle.config>
@@ -77,6 +77,14 @@
 			</activation>
 			<build>
 				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<!-- Skip tests since cobertura will run the tests; this is to prevent 
+								tests from running twice. -->
+							<skip>true</skip>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -183,6 +191,7 @@
 							<formats>
 								<format>xml</format>
 							</formats>
+							<aggregate>true</aggregate>
 						</configuration>
 						<executions>
 							<execution>
