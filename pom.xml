@@ -72,7 +72,12 @@
 	<profiles>
 		<profile>
 			<id>jenkins</id>
-			<!-- <activation> <activeByDefault>true</activeByDefault> </activation> -->
+			<activation>
+				<property>
+					<name>BUILD_NUMBER</name>
+				</property>
+				<!-- <activeByDefault>true</activeByDefault> -->
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
