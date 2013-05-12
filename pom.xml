@@ -185,6 +185,7 @@
 						<configuration>
 							<targetJdk>${jdk.version}</targetJdk>
 							<linkXref>true</linkXref>
+							<aggregate>true</aggregate>
 						</configuration>
 						<executions>
 							<execution>
@@ -216,7 +217,27 @@
 					</plugin>
 				</plugins>
 			</build>
-
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<version>3.0.1</version>
+						<configuration>
+							<aggregate>true</aggregate>
+						</configuration>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>pmd</report>
+									<report>cpd</report>
+									<report>check</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
 			<distributionManagement>
 				<repository>
 					<id>uk.ac.standrews.cs.jenkins.distribution.managemenet</id>
