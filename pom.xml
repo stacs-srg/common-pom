@@ -186,6 +186,14 @@
 							<targetJdk>${jdk.version}</targetJdk>
 							<linkXref>true</linkXref>
 						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>pmd</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
