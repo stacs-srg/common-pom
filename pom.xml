@@ -184,14 +184,15 @@
 						<version>3.0.1</version>
 						<configuration>
 							<targetJdk>${jdk.version}</targetJdk>
-							<linkXref>true</linkXref>
-							<aggregate>true</aggregate>
 						</configuration>
 						<executions>
+
 							<execution>
 								<phase>package</phase>
 								<goals>
 									<goal>pmd</goal>
+									<goal>cpd</goal>
+									<goal>check</goal>
 								</goals>
 							</execution>
 						</executions>
@@ -224,7 +225,7 @@
 						<artifactId>maven-pmd-plugin</artifactId>
 						<version>3.0.1</version>
 						<configuration>
-							<aggregate>true</aggregate>
+							<targetJdk>${jdk.version}</targetJdk>
 						</configuration>
 						<reportSets>
 							<reportSet>
