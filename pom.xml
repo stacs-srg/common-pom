@@ -11,11 +11,15 @@
 	<properties>
 		<jdk.version>1.6</jdk.version>
 
-		<!-- HTTPS doesn't work, that's why used the URL from quicksilver. -->
+		<!-- HTTPS doesn't work due to the expired certificate, that's why used 
+			the URL from quicksilver. -->
 		<!-- <checkstyle.config>https://builds.cs.st-andrews.ac.uk/job/hudson_tools/lastSuccessfulBuild/artifact/checkstyle/checkstyle-config.xml</checkstyle.config> -->
 		<checkstyle.config>
 			http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml
 		</checkstyle.config>
+		<findbugs.exclude.filter.file>
+			http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/findbugs/findbugs-exclude.xml
+		</findbugs.exclude.filter.file>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -168,6 +172,7 @@
 						<configuration>
 							<findbugsXmlOutput>true</findbugsXmlOutput>
 							<xmlOutput>true</xmlOutput>
+							<excludeFilterFile>${findbugs.exclude.filter.file}</excludeFilterFile>
 						</configuration>
 						<executions>
 							<execution>
@@ -217,7 +222,7 @@
 					</plugin>
 				</plugins>
 			</build>
-			
+
 			<distributionManagement>
 				<repository>
 					<id>uk.ac.standrews.cs.jenkins.distribution.managemenet</id>
