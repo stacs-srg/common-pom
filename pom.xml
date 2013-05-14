@@ -11,16 +11,13 @@
 	<properties>
 		<jdk.version>1.6</jdk.version>
 
-		<!-- HTTPS doesn't work due to the expired certificate, that's why used 
-			the URL from quicksilver. -->
-		<!-- <checkstyle.config>https://builds.cs.st-andrews.ac.uk/job/hudson_tools/lastSuccessfulBuild/artifact/checkstyle/checkstyle-config.xml</checkstyle.config> -->
-		<checkstyle.config>
-			http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml
-		</checkstyle.config>
-		<findbugs.exclude.filter.file>
-			http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/findbugs/findbugs-exclude.xml
-		</findbugs.exclude.filter.file>
+		<!-- HTTPS doesn't work due to the expired certificate, that's why used the URL from quicksilver. -->
+		<checkstyle.config>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml</checkstyle.config>
+		<findbugs.exclude.filter.file>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/findbugs/findbugs-exclude.xml</findbugs.exclude.filter.file>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- The directory on Beast where the files are deployed after a successful Jenkins build.-->
+        <repository.home>file:///data/jenkins/remote_maven_repository/</repository.home>
 	</properties>
 
 	<organization>
@@ -70,8 +67,9 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
-		</dependency>
-	</dependencies>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 	<profiles>
 		<profile>
@@ -126,6 +124,7 @@
 							</execution>
 						</executions>
 					</plugin>
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
@@ -149,6 +148,7 @@
 
 						</executions>
 					</plugin>
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-checkstyle-plugin</artifactId>
@@ -165,6 +165,7 @@
 							</execution>
 						</executions>
 					</plugin>
+
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>findbugs-maven-plugin</artifactId>
@@ -191,7 +192,6 @@
 							<targetJdk>${jdk.version}</targetJdk>
 						</configuration>
 						<executions>
-
 							<execution>
 								<phase>package</phase>
 								<goals>
@@ -227,7 +227,7 @@
 				<repository>
 					<id>uk.ac.standrews.cs.jenkins.distribution.managemenet</id>
 					<name>Jenkins Distribution Management</name>
-					<url>file:///data/jenkins/remote_maven_repository/</url>
+					<url>${repository.home}</url>
 				</repository>
 			</distributionManagement>
 
