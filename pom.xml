@@ -158,7 +158,7 @@
 						</configuration>
 						<executions>
 							<execution>
-								<phase>package</phase>
+								<phase>verify</phase>
 								<goals>
 									<goal>checkstyle</goal>
 								</goals>
@@ -177,7 +177,7 @@
 						</configuration>
 						<executions>
 							<execution>
-								<phase>package</phase>
+								<phase>verify</phase>
 								<goals>
 									<goal>findbugs</goal>
 								</goals>
@@ -190,10 +190,12 @@
 						<version>3.0.1</version>
 						<configuration>
 							<targetJdk>${jdk.version}</targetJdk>
+                            <aggregate>true</aggregate>
+                            <linkXRef>false</linkXRef>
 						</configuration>
 						<executions>
 							<execution>
-								<phase>package</phase>
+								<phase>verify</phase>
 								<goals>
 									<goal>pmd</goal>
 									<goal>cpd</goal>
@@ -213,7 +215,7 @@
 						</configuration>
 						<executions>
 							<execution>
-								<phase>test</phase>
+								<phase>verify</phase>
 								<goals>
 									<goal>cobertura</goal>
 								</goals>
