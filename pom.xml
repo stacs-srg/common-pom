@@ -18,6 +18,7 @@
 
         <!-- The directory on Beast where the files are deployed after a successful Jenkins build.-->
         <repository.home>file:///data/jenkins/remote_maven_repository/</repository.home>
+        <test.excludedGroups>uk.ac.standrews.cs.test.category.Slow</test.excludedGroups>
     </properties>
 
     <organization>
@@ -48,6 +49,11 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.15</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.6</version>
             </plugin>
@@ -73,12 +79,27 @@
             <groupId>uk.ac.standrews.cs</groupId>
             <artifactId>common-test</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <type>test-jar</type>
             <scope>test</scope>
+            <type>test-jar</type>
         </dependency>
     </dependencies>
 
     <profiles>
+
+        <profile>
+            <id>test-excluded-groups</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <groups>${test.excludedGroups}</groups>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>jenkins</id>
             <activation>
@@ -90,9 +111,7 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.0</version>
                         <configuration>
                             <source>${jdk.version}</source>
                             <target>${jdk.version}</target>
@@ -101,17 +120,10 @@
                         </configuration>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.15</version>
                         <configuration>
-                            <excludedGroups>uk.ac.standrews.cs.test.category.Slow</excludedGroups>
+                            <excludedGroups>${test.excludedGroups}</excludedGroups>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.6</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
