@@ -18,7 +18,9 @@
 
         <!-- The directory on Beast where the files are deployed after a successful Jenkins build.-->
         <repository.home>file:///data/jenkins/remote_maven_repository/</repository.home>
-        <test.excludedGroups>uk.ac.standrews.cs.test.category.Slow</test.excludedGroups>
+        <test.excludedGroups>uk.ac.standrews.cs.test.category.Slow,uk.ac.standrews.cs.test.category.Ignore</test.excludedGroups>
+        <test.slowGroups>uk.ac.standrews.cs.test.category.Slow</test.slowGroups>
+        <test.ignoredGroups>uk.ac.standrews.cs.test.category.Ignore</test.ignoredGroups>
     </properties>
 
     <organization>
@@ -93,7 +95,8 @@
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
-                            <groups>${test.excludedGroups}</groups>
+                            <groups>${test.slowGroups}</groups>
+                            <excludedGroups>${test.ignoredGroups}</excludedGroups>
                         </configuration>
                     </plugin>
                 </plugins>
