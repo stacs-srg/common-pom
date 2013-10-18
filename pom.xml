@@ -139,6 +139,7 @@
                                     <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                                 </manifest>
                             </archive>
+                            <skipIfEmpty>true</skipIfEmpty>
                         </configuration>
                         <executions>
                             <execution>
