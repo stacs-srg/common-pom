@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -10,7 +10,6 @@
 
     <properties>
         <jdk.version>1.6</jdk.version>
-
         <!-- HTTPS doesn't work due to the expired certificate, that's why used the URL from quicksilver. -->
         <checkstyle.config>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml</checkstyle.config>
         <findbugs.exclude.filter.file>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/findbugs/findbugs-exclude.xml</findbugs.exclude.filter.file>
@@ -21,6 +20,11 @@
         <test.excludedGroups>uk.ac.standrews.cs.test.category.Slow,uk.ac.standrews.cs.test.category.Ignore</test.excludedGroups>
         <test.slowGroups>uk.ac.standrews.cs.test.category.Slow</test.slowGroups>
         <test.ignoredGroups>uk.ac.standrews.cs.test.category.Ignore</test.ignoredGroups>
+
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
     </properties>
 
     <organization>
@@ -41,13 +45,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                    <showDeprecation>true</showDeprecation>
-                    <showWarnings>true</showWarnings>
-                </configuration>
+                <version>3.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -111,6 +109,7 @@
                 </property>
                 <!-- <activeByDefault>true</activeByDefault> -->
             </activation>
+            
             <build>
                 <plugins>
                     <plugin>
@@ -167,7 +166,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9</version>
+                        <version>2.9.1</version>
                         <configuration>
                             <detectLinks>true</detectLinks>
                             <links>
@@ -190,7 +189,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>2.9.1</version>
+                        <version>2.11</version>
                         <configuration>
                             <configLocation>${checkstyle.config}</configLocation>
                         </configuration>
@@ -207,7 +206,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>2.5.2</version>
+                        <version>2.5.3</version>
                         <configuration>
                             <findbugsXmlOutput>true</findbugsXmlOutput>
                             <xmlOutput>true</xmlOutput>
@@ -244,7 +243,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>cobertura-maven-plugin</artifactId>
-                        <version>2.5.2</version>
+                        <version>2.6</version>
                         <configuration>
                             <formats>
                                 <format>xml</format>

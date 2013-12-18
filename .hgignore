@@ -1,7 +1,4 @@
-
-syntax: regexp
-^\.idea$
-syntax: regexp
-^common-pom\.iml$
-syntax: regexp
-^target$
+syntax: glob
+target
+*.iml
+.idea
