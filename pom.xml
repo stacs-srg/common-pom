@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>1.7</jdk.version>
         <!-- HTTPS doesn't work due to the expired certificate, that's why used the URL from quicksilver. -->
         <checkstyle.config>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml</checkstyle.config>
         <findbugs.exclude.filter.file>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/findbugs/findbugs-exclude.xml</findbugs.exclude.filter.file>
