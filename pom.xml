@@ -1,4 +1,5 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -11,13 +12,20 @@
     <properties>
         <jdk.version>1.7</jdk.version>
         <!-- HTTPS doesn't work due to the expired certificate, that's why used the URL from quicksilver. -->
-        <checkstyle.config>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml</checkstyle.config>
-        <findbugs.exclude.filter.file>http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/findbugs/findbugs-exclude.xml</findbugs.exclude.filter.file>
+        <checkstyle.config>
+            http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml
+        </checkstyle.config>
+        <findbugs.exclude.filter.file>
+            http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/findbugs/findbugs-exclude.xml
+        </findbugs.exclude.filter.file>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- The directory on Beast where the files are deployed after a successful Jenkins build.-->
         <repository.home>file:///data/jenkins/remote_maven_repository/</repository.home>
-        <test.excludedGroups>uk.ac.standrews.cs.test.category.Slow,uk.ac.standrews.cs.test.category.Ignore</test.excludedGroups>
+        <test.excludedGroups>
+            uk.ac.standrews.cs.test.category.Slow,uk.ac.standrews.cs.test.category.Ignore
+        </test.excludedGroups>
+
         <test.slowGroups>uk.ac.standrews.cs.test.category.Slow</test.slowGroups>
         <test.ignoredGroups>uk.ac.standrews.cs.test.category.Ignore</test.ignoredGroups>
 
@@ -39,26 +47,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.16</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-            </plugin>
-        </plugins>
-    </build>
 
     <repositories>
         <repository>
@@ -91,7 +79,9 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.17</version>
                         <configuration>
                             <groups>${test.slowGroups}</groups>
                             <excludedGroups>${test.ignoredGroups}</excludedGroups>
@@ -109,21 +99,23 @@
                 </property>
                 <!-- <activeByDefault>true</activeByDefault> -->
             </activation>
-            
+
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.1</version>
                         <configuration>
                             <source>${jdk.version}</source>
                             <target>${jdk.version}</target>
-                            <showDeprecation>true</showDeprecation>
-                            <showWarnings>true</showWarnings>
                         </configuration>
                     </plugin>
 
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.17</version>
                         <configuration>
                             <excludedGroups>${test.excludedGroups}</excludedGroups>
                         </configuration>
@@ -132,12 +124,14 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>2.4</version>
+                        <version>2.5</version>
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                    <addDefaultImplementationEntries>true
+                                    </addDefaultImplementationEntries>
+                                    <addDefaultSpecificationEntries>true
+                                    </addDefaultSpecificationEntries>
                                 </manifest>
                             </archive>
                             <skipIfEmpty>true</skipIfEmpty>
@@ -177,6 +171,7 @@
                                 <link>http://junit.sourceforge.net/javadoc</link>
                             </links>
                             <aggregate>true</aggregate>
+                            <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                         <executions>
                             <execution>
@@ -192,7 +187,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>2.9.1</version>
+                        <version>2.12.1</version>
                         <configuration>
                             <configLocation>${checkstyle.config}</configLocation>
                         </configuration>
@@ -209,7 +204,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>2.5.3</version>
+                        <version>2.5.4</version>
                         <configuration>
                             <findbugsXmlOutput>true</findbugsXmlOutput>
                             <xmlOutput>true</xmlOutput>
@@ -228,7 +223,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>3.1</version>
                         <configuration>
                             <targetJdk>${jdk.version}</targetJdk>
                             <aggregate>true</aggregate>
