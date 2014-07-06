@@ -171,7 +171,6 @@
                                 <link>http://junit.sourceforge.net/javadoc</link>
                             </links>
                             <aggregate>true</aggregate>
-                            <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                         <executions>
                             <execution>
