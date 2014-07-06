@@ -186,7 +186,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>2.12.1</version>
+                        <version>2.9.1</version>
                         <configuration>
                             <configLocation>${checkstyle.config}</configLocation>
                         </configuration>
@@ -224,7 +224,7 @@
                         <artifactId>maven-pmd-plugin</artifactId>
                         <version>3.1</version>
                         <configuration>
-                            <targetJdk>${jdk.version}</targetJdk>
+                            <!--<targetJdk>${jdk.version}</targetJdk>-->
                             <aggregate>true</aggregate>
                             <linkXRef>false</linkXRef>
                         </configuration>
