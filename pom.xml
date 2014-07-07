@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <properties>
-        <jdk.version>1.7</jdk.version>
         <!-- HTTPS doesn't work due to the expired certificate, that's why used the URL from quicksilver. -->
         <checkstyle.config>
             http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml
@@ -29,8 +28,8 @@
         <test.slowGroups>uk.ac.standrews.cs.test.category.Slow</test.slowGroups>
         <test.ignoredGroups>uk.ac.standrews.cs.test.category.Ignore</test.ignoredGroups>
 
-        <maven.compiler.source>${jdk.version}</maven.compiler.source>
-        <maven.compiler.target>${jdk.version}</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
     </properties>
@@ -106,10 +105,6 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.1</version>
-                        <configuration>
-                            <source>${jdk.version}</source>
-                            <target>${jdk.version}</target>
-                        </configuration>
                     </plugin>
 
                     <plugin>
@@ -224,7 +219,6 @@
                         <artifactId>maven-pmd-plugin</artifactId>
                         <version>3.1</version>
                         <configuration>
-                            <!--<targetJdk>${jdk.version}</targetJdk>-->
                             <aggregate>true</aggregate>
                             <linkXRef>false</linkXRef>
                         </configuration>
