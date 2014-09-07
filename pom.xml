@@ -96,6 +96,9 @@
                 <property>
                     <name>BUILD_NUMBER</name>
                 </property>
+                <property>
+                    <name>!sonar</name>
+                </property>
             </activation>
 
             <build>
@@ -265,6 +268,14 @@
         <profile>
             <id>sonar</id>
 
+            <activation>
+                <property>
+                    <name>BUILD_NUMBER</name>
+                </property>
+                <property>
+                    <name>sonar</name>
+                </property>
+            </activation>
             <build>
                 <plugins>
 
