@@ -94,9 +94,6 @@
             <id>jenkins</id>
             <activation>
                 <property>
-                    <name>BUILD_NUMBER</name>
-                </property>
-                <property>
                     <name>!sonar</name>
                 </property>
             </activation>
@@ -269,9 +266,6 @@
             <id>sonar</id>
 
             <activation>
-                <property>
-                    <name>BUILD_NUMBER</name>
-                </property>
                 <property>
                     <name>sonar</name>
                 </property>
