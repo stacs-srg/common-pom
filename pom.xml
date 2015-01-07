@@ -80,7 +80,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.17</version>
+                        <version>2.18.1</version>
                         <configuration>
                             <groups>${test.slowGroups}</groups>
                             <excludedGroups>${test.ignoredGroups}</excludedGroups>
@@ -103,13 +103,13 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.1</version>
+                        <version>3.2</version>
                     </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.17</version>
+                        <version>2.18.1</version>
                         <configuration>
                             <excludedGroups>${test.excludedGroups}</excludedGroups>
                         </configuration>
@@ -141,7 +141,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
+                        <version>2.4</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -155,7 +155,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
+                        <version>2.10.1</version>
                         <configuration>
                             <detectLinks>true</detectLinks>
                             <links>
@@ -201,7 +201,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.17</version>
+                        <version>2.18.1</version>
                         <configuration>
                             <excludedGroups>${test.excludedGroups}</excludedGroups>
                             <properties>
@@ -216,7 +216,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>sonar-maven-plugin</artifactId>
-                        <version>2.4</version>
+                        <version>2.5</version>
                         <executions>
                             <execution>
                                 <phase>install</phase>
@@ -230,7 +230,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.7.1.201405082137</version>
+                        <version>0.7.2.201409121644</version>
                         <executions>
                             <execution>
                                 <id>default-prepare-agent</id>
@@ -254,7 +254,7 @@
                 <dependency>
                     <groupId>org.codehaus.sonar-plugins.java</groupId>
                     <artifactId>sonar-jacoco-listeners</artifactId>
-                    <version>2.3</version>
+                    <version>2.8</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
