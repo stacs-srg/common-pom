@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- The directory on Beast where the files are deployed after a successful Jenkins build.-->
-        <repository.home>file:///data/jenkins/remote_maven_repository/</repository.home>
+        <repository.home>file:///data/maven_repository/</repository.home>
         <test.excludedGroups>
             uk.ac.standrews.cs.test.category.Slow,uk.ac.standrews.cs.test.category.Ignore
         </test.excludedGroups>
