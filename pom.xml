@@ -6,33 +6,8 @@
 
     <groupId>uk.ac.standrews.cs</groupId>
     <artifactId>common-pom</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
-    <properties>
-        <!-- HTTPS doesn't work due to the expired certificate, that's why used the URL from quicksilver. -->
-        <checkstyle.config>
-            http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/checkstyle/checkstyle-config.xml
-        </checkstyle.config>
-        <findbugs.exclude.filter.file>
-            http://quicksilver.hg.cs.st-andrews.ac.uk/hudson_tools/raw-file/tip/findbugs/findbugs-exclude.xml
-        </findbugs.exclude.filter.file>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- The directory on Beast where the files are deployed after a successful Jenkins build.-->
-        <repository.home>file:///data/maven_repository/</repository.home>
-        <test.excludedGroups>
-            uk.ac.standrews.cs.test.category.Slow,uk.ac.standrews.cs.test.category.Ignore
-        </test.excludedGroups>
-
-        <test.slowGroups>uk.ac.standrews.cs.test.category.Slow</test.slowGroups>
-        <test.ignoredGroups>uk.ac.standrews.cs.test.category.Ignore</test.ignoredGroups>
-
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
-        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-    </properties>
 
     <organization>
         <name>School of Computer Science at University of St Andrews</name>
@@ -47,54 +22,253 @@
         </license>
     </licenses>
 
+    <dependencies>
+
+        <!--<dependency>-->
+            <!--<groupId>uk.ac.standrews.cs</groupId>-->
+            <!--<artifactId>common-test</artifactId>-->
+            <!--<version>2.0-SNAPSHOT</version>-->
+            <!--<scope>test</scope>-->
+            <!--<type>test-jar</type>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.8</jdk.version>
+
+        <license.template>src/main/resources/license-template.txt</license.template>
+        <license.style>src/main/resources/license-custom-style.xml</license.style>
+
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+
+        <test.normallyExcludedTestCategories>uk.ac.standrews.cs.test.category.Slow</test.normallyExcludedTestCategories>
+
+        <maven.repository.host>beast.cs.st-andrews.ac.uk</maven.repository.host>
+        <maven.repository.path>/data/maven_repository/</maven.repository.path>
+        <maven.repository.user>teamcity</maven.repository.user>
+
+    </properties>
+
     <repositories>
+
+        <!-- Repository to which this module is deployed, and others retrieved from.                 -->
+
         <repository>
             <id>uk.ac.standrews.cs.maven.repository</id>
             <name>School of Computer Science Maven Repository</name>
             <url>http://maven.cs.st-andrews.ac.uk/</url>
         </repository>
+
     </repositories>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>uk.ac.standrews.cs</groupId>
-            <artifactId>common-test</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>test</scope>
-            <type>test-jar</type>
-        </dependency>
-    </dependencies>
+    <distributionManagement>
+
+        <!-- The default behaviour is to deploy to the Maven repository remotely using scp.          -->
+        <!-- For this to work, your public key needs to be installed for the 'teamcity'              -->
+        <!-- user on beast. Add key to the file on beast: /home/teamcity/.ssh/authorized_keys        -->
+
+        <!-- The profile local-deploy is used when deploying from the same host as the repository.   -->
+
+        <repository>
+            <id>ssh-repository</id>
+            <url>scpexe://${maven.repository.user}@${maven.repository.host}${maven.repository.path}</url>
+        </repository>
+
+    </distributionManagement>
+
+    <build>
+        <plugins>
+
+            <plugin>
+
+                <!-- This generates jar artifacts. -->
+
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <skipIfEmpty>true</skipIfEmpty>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+
+                <!-- This generates a jar including source. -->
+
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+
+                <!-- This generates a jar including Javadoc. -->
+
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <detectLinks>true</detectLinks>
+                    <links>
+                        <link>http://junit.org/junit4/javadoc/4.11/</link>
+                    </links>
+                    <aggregate>true</aggregate>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+
+                <!-- This generates a single jar including dependencies. -->
+
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+
+            <plugins>
+
+                <plugin>
+                    <!-- This checks that the required licence, specified in the licence template        -->
+                    <!-- file src/main/resources/license-template.txt, is applied to all source files.   -->
+
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>3.0</version>
+                    <configuration>
+                        <header>${license.template}</header>
+
+                        <headerDefinitions>
+
+                            <!-- This custom style is used to override the default formatting for Java   -->
+                            <!-- files, which uses Javadoc format, therefore causing confusion with the  -->
+                            <!-- actual class-level Javadoc.                                             -->
+                            <headerDefinition>${license.style}</headerDefinition>
+
+                        </headerDefinitions>
+
+                        <mapping>
+                            <java>JAVA_STYLE</java>
+                        </mapping>
+
+                        <includes>
+                            <include>src/**</include>
+                            <include>pom.xml</include>
+                        </includes>
+
+                        <excludes>
+                            <exclude>**/README</exclude>
+                            <exclude>src/test/resources/**</exclude>
+                            <exclude>src/main/resources/**</exclude>
+                            <exclude>src/docs/**</exclude>
+                            <exclude>src/site/**</exclude>
+                        </excludes>
+
+                    </configuration>
+
+                    <executions>
+                        <execution>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <extensions>
+
+            <extension>
+
+                <!-- This allows deployment to remote Maven repository via SCP. -->
+
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>2.10</version>
+            </extension>
+
+        </extensions>
+    </build>
 
     <profiles>
 
         <profile>
-            <id>test-excluded-groups</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.17</version>
-                        <configuration>
-                            <groups>${test.slowGroups}</groups>
-                            <excludedGroups>${test.ignoredGroups}</excludedGroups>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
 
-        <profile>
-            <id>jenkins</id>
+            <!-- This is the default profile, which excludes slow tests from the 'test' goal.    -->
+
+            <id>default</id>
             <activation>
+                <activeByDefault>true</activeByDefault>
                 <property>
-                    <name>!sonar</name>
+                    <name>!test-all</name>
                 </property>
             </activation>
 
@@ -102,163 +276,238 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.1</version>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.17</version>
+                        <version>2.19.1</version>
                         <configuration>
-                            <excludedGroups>${test.excludedGroups}</excludedGroups>
+                            <excludedGroups>${test.normallyExcludedTestCategories}</excludedGroups>
                         </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>2.5</version>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                                </manifest>
-                            </archive>
-                            <skipIfEmpty>true</skipIfEmpty>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>test-jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <configuration>
-                            <detectLinks>true</detectLinks>
-                            <links>
-                                <link>http://www.json.org/javadoc</link>
-                                <link>http://junit.org/javadoc/4.11/</link>
-                            </links>
-                            <aggregate>true</aggregate>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                    <goal>javadoc</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
 
+        </profile>
+
+        <profile>
+
+            <!-- This profile includes all tests in the 'test' goal.                        -->
+            <!-- It is activated by running with 'mvn -Dtest-all'.                          -->
+
+            <id>test-all</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>test-all</name>
+                </property>
+            </activation>
+
+        </profile>
+
+        <profile>
+
+            <!-- This profile configures the maven repository location, used in the 'deploy' -->
+            <!-- goal, to use a local path. This is used by the TeamCity build server, which -->
+            <!-- runs on the same host as the Maven repository. It is activated by running   -->
+            <!-- with 'mvn -Dlocal-deploy'.                                                  -->
+
+            <id>local-deploy</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>local-deploy</name>
+                </property>
+            </activation>
+
             <distributionManagement>
                 <repository>
-                    <id>uk.ac.standrews.cs.jenkins.distribution.management</id>
-                    <name>Jenkins Distribution Management</name>
-                    <url>${repository.home}</url>
+                    <id>local-repository</id>
+                    <url>file://${maven.repository.path}</url>
                 </repository>
             </distributionManagement>
 
         </profile>
 
-        <profile>
-            <id>sonar</id>
-
-            <activation>
-                <property>
-                    <name>sonar</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.17</version>
-                        <configuration>
-                            <excludedGroups>${test.excludedGroups}</excludedGroups>
-                            <properties>
-                                <property>
-                                    <name>listener</name>
-                                    <value>org.sonar.java.jacoco.JUnitListener</value>
-                                </property>
-                            </properties>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>sonar-maven-plugin</artifactId>
-                        <version>2.4</version>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>sonar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.7.1.201405082137</version>
-                        <executions>
-                            <execution>
-                                <id>default-prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>default-report</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-
-            <dependencies>
-                <dependency>
-                    <groupId>org.codehaus.sonar-plugins.java</groupId>
-                    <artifactId>sonar-jacoco-listeners</artifactId>
-                    <version>2.3</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
     </profiles>
+
+    <developers>
+        <developer>
+            <id/>
+            <name>Alan Dearle</name>
+            <email>alan.dearle@st-andrews.ac.uk</email>
+            <url>https://al.host.cs.st-andrews.ac.uk/</url>
+            <organization>University of St Andrews</organization>
+            <organizationUrl>http://www.st-andrews.ac.uk/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id/>
+            <name>Graham Kirby</name>
+            <email>graham.kirby@st-andrews.ac.uk</email>
+            <url>https://graham.host.cs.st-andrews.ac.uk/</url>
+            <organization>University of St Andrews</organization>
+            <organizationUrl>http://www.st-andrews.ac.uk/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id/>
+            <name>Özgür Akgün</name>
+            <email>ozgur.akgun@st-andrews.ac.uk</email>
+            <url>https://ozgur.host.cs.st-andrews.ac.uk/</url>
+            <organization>University of St Andrews</organization>
+            <organizationUrl>http://www.st-andrews.ac.uk/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id/>
+            <name>Tom Dalton</name>
+            <email>tsd4@st-andrews.ac.uk</email>
+            <organization>University of St Andrews</organization>
+            <organizationUrl>http://www.st-andrews.ac.uk/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>Masih Hajiarab Derkani</name>
+            <organization>Previously University of St Andrews</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Jamie Carson</name>
+            <email>jamiekcarson@gmail.com</email>
+            <organization>Previously University of St Andrews</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Fraser Dunlop</name>
+            <email>fraser.dunlop@gmail.com</email>
+            <organization>Previously University of St Andrews</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Chris Dibben</name>
+            <email>chris.dibben@ed.ac.uk</email>
+            <url>http://www.ed.ac.uk/schools-departments/geosciences/people?indv=3666</url>
+            <organization>University of Edinburgh</organization>
+            <organizationUrl>http://www.ed.ac.uk/</organizationUrl>
+            <roles>
+                <role>Collaborator</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Lee Williamson</name>
+            <email>lee.williamson@ed.ac.uk</email>
+            <url>http://www.ed.ac.uk/schools-departments/geosciences/people?indv=3966</url>
+            <organization>University of Edinburgh</organization>
+            <organizationUrl>http://www.ed.ac.uk/</organizationUrl>
+            <roles>
+                <role>Collaborator</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Alasdair Gray</name>
+            <email>A.J.G.Gray@hw.ac.uk</email>
+            <url>http://www.macs.hw.ac.uk/~ajg33/</url>
+            <organization>Heriot-Watt University</organization>
+            <organizationUrl>http://www.hw.ac.uk/</organizationUrl>
+            <roles>
+                <role>Collaborator</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Peter Christen</name>
+            <email>peter.christen@anu.edu.au</email>
+            <url>http://cs.anu.edu.au/~Peter.Christen/</url>
+            <organization>Australian National University</organization>
+            <organizationUrl>http://www.anu.edu.au/</organizationUrl>
+            <roles>
+                <role>Collaborator</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>John Bass</name>
+            <organization>Institute for Marine and Antarctic Studies</organization>
+            <organizationUrl>http://www.imas.utas.edu.au</organizationUrl>
+            <roles>
+                <role>Collaborator</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Eilidh Garrett</name>
+            <email>eilidh.garrett@btinternet.com</email>
+            <url>http://www.geog.cam.ac.uk/people/garrett/</url>
+            <organization>University of Cambridge</organization>
+            <organizationUrl>http://www.cam.ac.uk/</organizationUrl>
+            <roles>
+                <role>Collaborator</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Alice Reid</name>
+            <email>alice.reid@geog.cam.ac.uk</email>
+            <url>http://www.geog.cam.ac.uk/people/reid/</url>
+            <organization>University of Cambridge</organization>
+            <organizationUrl>http://www.cam.ac.uk/</organizationUrl>
+            <roles>
+                <role>Collaborator</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Victor Andrei</name>
+            <email>va9@st-andrews.ac.uk</email>
+            <organization>University of St Andrews</organization>
+            <organizationUrl>http://www.st-andrews.ac.uk/</organizationUrl>
+            <roles>
+                <role>Student Intern 2014</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Conrad de Kerckhove</name>
+            <url>https://www.linkedin.com/in/cfedk</url>
+            <organization>University of St Andrews</organization>
+            <organizationUrl>http://www.st-andrews.ac.uk/</organizationUrl>
+            <roles>
+                <role>Student Intern 2013</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Ilia Shumailov</name>
+            <url>https://www.linkedin.com/pub/ilia-shumailov/93/297/781</url>
+            <organization>University of St Andrews</organization>
+            <organizationUrl>http://www.st-andrews.ac.uk/</organizationUrl>
+            <roles>
+                <role>Student Intern 2013</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Ben Lovell</name>
+            <url>https://uk.linkedin.com/pub/ben-lovell/22/5a2/b76</url>
+            <organization>Previously University of St Andrews</organization>
+            <roles>
+                <role>Student Intern 2012</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Ivars Zubkans</name>
+            <url>https://lv.linkedin.com/pub/ivars-zubkans/32/750/19</url>
+            <organization>Previously University of St Andrews</organization>
+            <roles>
+                <role>Student Intern 2012</role>
+            </roles>
+        </contributor>
+    </contributors>
+
 </project>
