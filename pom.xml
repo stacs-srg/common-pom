@@ -136,6 +136,7 @@
                 <configuration>
                     <detectLinks>true</detectLinks>
                     <show>public</show>
+                    <doclint>none</doclint>
                 </configuration>
                 <executions>
                     <execution>
