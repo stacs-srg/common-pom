@@ -4,14 +4,15 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>uk.ac.standrews.cs</groupId>
+    <groupId>com.github.stacs-srg</groupId>
     <artifactId>common-pom</artifactId>
-    <version>3.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
+    <name>common-pom</name>
 
     <organization>
         <name>School of Computer Science at University of St Andrews</name>
-        <url>https://www.cs.st-andrews.ac.uk</url>
+        <url>https://www.st-andrews.ac.uk/computer-science/</url>
     </organization>
 
     <licenses>
@@ -21,16 +22,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-
-    </dependencies>
 
     <properties>
 
@@ -45,289 +36,194 @@
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
 
-        <maven.repository.host>beast.cs.st-andrews.ac.uk</maven.repository.host>
-        <maven.repository.path>/data/maven_repository/</maven.repository.path>
-        <maven.repository.user>teamcity</maven.repository.user>
-
-        <test.normallyExcludedTestCategories>uk.ac.standrews.cs.test.category.Slow</test.normallyExcludedTestCategories>
-
     </properties>
 
-    <repositories>
+    <dependencies>
 
-        <!-- Repository to which this module is deployed, and others retrieved from.                 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+        </dependency>
 
-        <repository>
-            <id>uk.ac.standrews.cs.maven.repository</id>
-            <name>School of Computer Science Maven Repository</name>
-            <url>https://maven.cs.st-andrews.ac.uk/</url>
-        </repository>
-
-    </repositories>
+    </dependencies>
 
     <distributionManagement>
-
-        <!-- The default behaviour is to deploy to the Maven repository remotely using scp.          -->
-        <!-- For this to work, your public key needs to be installed for the 'teamcity'              -->
-        <!-- user on beast. Add key to the file on beast: /home/teamcity/.ssh/authorized_keys        -->
-
-        <!-- The profile local-deploy is used when deploying from the same host as the repository.   -->
-
+        <!-- Central Repository -->
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>ssh-repository</id>
-            <url>scpexe://${maven.repository.user}@${maven.repository.host}${maven.repository.path}</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-
     </distributionManagement>
 
     <build>
         <plugins>
 
             <plugin>
+                <!-- This checks that the required licence, specified in the licence template        -->
+                <!-- file src/main/resources/license-template.txt, is applied to all source files.   -->
 
-                <!-- This generates jar artifacts. -->
-
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>3.0</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
-                    </archive>
+                    <header>${license.template}</header>
+
+                    <headerDefinitions>
+
+                        <!-- This custom style is used to override the default formatting for Java   -->
+                        <!-- files, which uses Javadoc format, therefore causing confusion with the  -->
+                        <!-- actual class-level Javadoc.                                             -->
+                        <headerDefinition>${license.style}</headerDefinition>
+
+                    </headerDefinitions>
+
+                    <mapping>
+                        <java>JAVA_STYLE</java>
+                    </mapping>
+
+                    <includes>
+                        <include>src/**</include>
+                        <include>pom.xml</include>
+                    </includes>
+
+                    <excludes>
+                        <exclude>**/README</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                        <exclude>src/main/resources/**</exclude>
+                        <exclude>src/docs/**</exclude>
+                        <exclude>src/site/**</exclude>
+                    </excludes>
+
                 </configuration>
+
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>initialize</phase>
                         <goals>
-                            <goal>test-jar</goal>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Needed for Codecov -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
 
             <plugin>
-
-                <!-- This generates a jar including source. -->
-
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-
-                <!-- This generates a jar including Javadoc. -->
-
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
                 <configuration>
-                    <detectLinks>true</detectLinks>
-                    <show>public</show>
-                    <doclint>none</doclint>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                            <goal>javadoc</goal>
-                        </goals>
-                    </execution>
-
-                </executions>
             </plugin>
 
             <plugin>
-
-                <!-- This generates a single jar including dependencies. -->
-
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.7</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <excludes>
+                        <exclude>org.apache.commons:commons-collections4</exclude>
+                    </excludes>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.7.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-descriptor</id>
-                        <goals>
-                            <goal>attach-descriptor</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>
 
-        <pluginManagement>
-
-            <plugins>
-
-                <plugin>
-                    <!-- This checks that the required licence, specified in the licence template        -->
-                    <!-- file src/main/resources/license-template.txt, is applied to all source files.   -->
-
-                    <groupId>com.mycila</groupId>
-                    <artifactId>license-maven-plugin</artifactId>
-                    <version>3.0</version>
-                    <configuration>
-                        <header>${license.template}</header>
-
-                        <headerDefinitions>
-
-                            <!-- This custom style is used to override the default formatting for Java   -->
-                            <!-- files, which uses Javadoc format, therefore causing confusion with the  -->
-                            <!-- actual class-level Javadoc.                                             -->
-                            <headerDefinition>${license.style}</headerDefinition>
-
-                        </headerDefinitions>
-
-                        <mapping>
-                            <java>JAVA_STYLE</java>
-                        </mapping>
-
-                        <includes>
-                            <include>src/**</include>
-                            <include>pom.xml</include>
-                        </includes>
-
-                        <excludes>
-                            <exclude>**/README</exclude>
-                            <exclude>src/test/resources/**</exclude>
-                            <exclude>src/main/resources/**</exclude>
-                            <exclude>src/docs/**</exclude>
-                            <exclude>src/site/**</exclude>
-                        </excludes>
-
-                    </configuration>
-
-                    <executions>
-                        <execution>
-                            <phase>initialize</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
-        <extensions>
-
-            <extension>
-
-                <!-- This allows deployment to remote Maven repository via SCP. -->
-
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>2.10</version>
-            </extension>
-
-        </extensions>
     </build>
 
     <profiles>
 
+        <!-- Deployment profile (required so these plugins are only used when deploying) -->
         <profile>
-
-            <!-- This is the default profile, which excludes slow tests from the 'test' goal.    -->
-
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>!test-all</name>
-                </property>
-            </activation>
-
+            <id>deploy</id>
             <build>
                 <plugins>
+                    <!-- Source plugin -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.19.1</version>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Javadoc plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.0.1</version>
                         <configuration>
-                            <excludedGroups>${test.normallyExcludedTestCategories}</excludedGroups>
+                            <show>public</show>
+                            <isOffline>false</isOffline>
                         </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- GPG plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- Prevent `gpg` from using pinentry programs -->
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
-
-        </profile>
-
-        <profile>
-
-            <!-- This profile includes all tests in the 'test' goal.                        -->
-            <!-- It is activated by running with 'mvn -Dtest-all'.                          -->
-
-            <id>test-all</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-                <property>
-                    <name>test-all</name>
-                </property>
-            </activation>
-
-        </profile>
-
-        <profile>
-
-            <!-- This profile configures the maven repository location, used in the 'deploy' -->
-            <!-- goal, to use a local path. This is used by the TeamCity build server, which -->
-            <!-- runs on the same host as the Maven repository. It is activated by running   -->
-            <!-- with 'mvn -Dlocal-deploy'.                                                  -->
-
-            <id>local-deploy</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-                <property>
-                    <name>local-deploy</name>
-                </property>
-            </activation>
-
-            <distributionManagement>
-                <repository>
-                    <id>local-repository</id>
-                    <url>file://${maven.repository.path}</url>
-                </repository>
-            </distributionManagement>
-
         </profile>
 
     </profiles>
