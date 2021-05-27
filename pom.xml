@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2020 Systems Research Group, University of St Andrews:
+    Copyright 2015-2021 Systems Research Group, University of St Andrews:
     <https://github.com/stacs-srg>
 
     This file is part of the module common-pom.
@@ -16,15 +16,16 @@
     <http://www.gnu.org/licenses/>.
 
 -->
+
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.stacs-srg</groupId>
+    <groupId>uk.ac.standrews.cs</groupId>
     <artifactId>common-pom</artifactId>
-    <version>1.0.2</version>
+    <version>4.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>common-pom</name>
 
@@ -32,11 +33,11 @@
     <url>https://github.com/stacs-srg/common-pom/</url>
     <inceptionYear>2015</inceptionYear>
 
-    <scm>
-        <connection>scm:git:git://github.com/stacs-srg/common-pom.git</connection>
-        <developerConnection>scm:git:ssh://github.com:stacs-srg/common-pom.git</developerConnection>
-        <url>https://github.com/stacs-srg/common-pom/tree/dev</url>
-    </scm>
+<!--    <scm>-->
+<!--        <connection>scm:git:git://github.com/stacs-srg/common-pom.git</connection>-->
+<!--        <developerConnection>scm:git:ssh://github.com:stacs-srg/common-pom.git</developerConnection>-->
+<!--        <url>https://github.com/stacs-srg/common-pom/tree/dev</url>-->
+<!--    </scm>-->
 
     <organization>
         <name>School of Computer Science at University of St Andrews</name>
@@ -54,7 +55,15 @@
     <properties>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>1.8</jdk.version>
+
+        <jdk.version>1.11</jdk.version>
+        <maven-minimum.version>3.3.9</maven-minimum.version>
+
+        <junit.version>4.13.2</junit.version>
+
+        <license-maven-plugin.version>4.1</license-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+        <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
 
         <license.template>src/main/resources/license-template.txt</license.template>
         <license.style>src/main/resources/license-custom-style.xml</license.style>
@@ -64,6 +73,10 @@
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
 
+        <maven.repository.host>maven-host.cs.st-andrews.ac.uk</maven.repository.host>
+        <maven.repository.path>/cs/unique/cs-maven-repository/</maven.repository.path>
+        <maven.repository.user>maven-repo</maven.repository.user>
+
     </properties>
 
     <dependencies>
@@ -71,22 +84,48 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <version>${junit.version}</version>
         </dependency>
 
     </dependencies>
 
-    <distributionManagement>
-        <!-- Central Repository -->
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+    <repositories>
+
+        <!-- Repository to which this module is deployed, and others retrieved from.                 -->
+
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>uk.ac.standrews.cs.maven.repository</id>
+            <name>School of Computer Science Maven Repository</name>
+            <url>https://maven.cs.st-andrews.ac.uk/</url>
         </repository>
+
+    </repositories>
+
+    <distributionManagement>
+
+        <!-- The default behaviour is to deploy to the Maven repository remotely using scp.          -->
+        <!-- For this to work, your public key needs to be installed in the authorized keys          -->
+        <!-- file on maven-host: /home/maven-repo/.ssh/authorized_keys                               -->
+
+        <repository>
+            <id>ssh-repository</id>
+            <url>scpexe://${maven.repository.user}@${maven.repository.host}${maven.repository.path}</url>
+        </repository>
+
     </distributionManagement>
+
+
+    <!--    <distributionManagement>-->
+<!--        &lt;!&ndash; Central Repository &ndash;&gt;-->
+<!--        <snapshotRepository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
 
     <build>
         <plugins>
@@ -97,7 +136,7 @@
 
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>3.0</version>
+                <version>${license-maven-plugin.version}</version>
                 <configuration>
                     <header>${license.template}</header>
 
@@ -129,6 +168,14 @@
 
                 </configuration>
 
+                <dependencies>
+                    <dependency>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin-git</artifactId>
+                        <version>${license-maven-plugin.version}</version>
+                    </dependency>
+                </dependencies>
+
                 <executions>
                     <execution>
                         <phase>initialize</phase>
@@ -143,7 +190,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.9</version>
+                <version>${jacoco-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -160,88 +207,121 @@
                 </executions>
             </plugin>
 
+<!--            <plugin>-->
+<!--                <groupId>org.sonatype.plugins</groupId>-->
+<!--                <artifactId>nexus-staging-maven-plugin</artifactId>-->
+<!--                <version>1.6.8</version>-->
+<!--                <extensions>true</extensions>-->
+<!--                <configuration>-->
+<!--                    <serverId>ossrh</serverId>-->
+<!--                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+<!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>${maven-minimum.version}</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
 
+        <extensions>
+
+            <extension>
+
+                <!-- This allows deployment to remote Maven repository via SCP. -->
+
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>2.10</version>
+            </extension>
+
+        </extensions>
     </build>
 
     <profiles>
 
-        <!-- Deployment profile (required so these plugins are only used when deploying) -->
-        <profile>
-            <id>deploy</id>
-            <build>
-                <plugins>
-                    <!-- Source plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+<!--        &lt;!&ndash; Deployment profile (required so these plugins are only used when deploying) &ndash;&gt;-->
+<!--        <profile>-->
+<!--            <id>deploy</id>-->
+<!--            <build>-->
+<!--                <plugins>-->
+<!--                    &lt;!&ndash; Source plugin &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-source-plugin</artifactId>-->
+<!--                        <version>3.0.1</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>attach-sources</id>-->
+<!--                                <goals>-->
+<!--                                    <goal>jar-no-fork</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
 
-                    <!-- Javadoc plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <configuration>
-                            <show>public</show>
-                            <isOffline>false</isOffline>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+<!--                    &lt;!&ndash; Javadoc plugin &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                        <version>3.0.1</version>-->
+<!--                        <configuration>-->
+<!--                            <show>public</show>-->
+<!--                            <isOffline>false</isOffline>-->
+<!--                        </configuration>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>attach-javadocs</id>-->
+<!--                                <goals>-->
+<!--                                    <goal>jar</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
 
-                    <!-- GPG plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                                <configuration>
-                                    <!-- Prevent `gpg` from using pinentry programs -->
-                                    <gpgArguments>
-                                        <arg>--pinentry-mode</arg>
-                                        <arg>loopback</arg>
-                                    </gpgArguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+<!--                    &lt;!&ndash; GPG plugin &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                        <version>1.6</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>sign-artifacts</id>-->
+<!--                                <phase>verify</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>sign</goal>-->
+<!--                                </goals>-->
+<!--                                <configuration>-->
+<!--                                    &lt;!&ndash; Prevent `gpg` from using pinentry programs &ndash;&gt;-->
+<!--                                    <gpgArguments>-->
+<!--                                        <arg>&#45;&#45;pinentry-mode</arg>-->
+<!--                                        <arg>loopback</arg>-->
+<!--                                    </gpgArguments>-->
+<!--                                </configuration>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
+<!--        </profile>-->
 
         <!-- Custom profile (only enable this plugin when profile manually selected) -->
         <!-- This is because the versions plugin contains an old version of Google
@@ -253,7 +333,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>versions-maven-plugin</artifactId>
-                        <version>2.7</version>
+                        <version>${versions-maven-plugin.version}</version>
                         <configuration>
                             <excludes>
                                 <exclude>org.apache.commons:commons-collections4</exclude>
