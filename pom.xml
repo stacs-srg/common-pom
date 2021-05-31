@@ -24,10 +24,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uk.ac.standrews.cs</groupId>
-    <artifactId>common-pom</artifactId>
+    <artifactId>common-pom-test</artifactId>
     <version>4.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>common-pom</name>
+    <name>common-pom-test</name>
 
     <description>Common POM for stacs-srg projects</description>
     <url>https://github.com/stacs-srg/common-pom/</url>
