@@ -32,12 +32,6 @@
     <url>https://github.com/stacs-srg/common-pom/</url>
     <inceptionYear>2015</inceptionYear>
 
-<!--    <scm>-->
-<!--        <connection>scm:git:git://github.com/stacs-srg/common-pom.git</connection>-->
-<!--        <developerConnection>scm:git:ssh://github.com:stacs-srg/common-pom.git</developerConnection>-->
-<!--        <url>https://github.com/stacs-srg/common-pom/tree/dev</url>-->
-<!--    </scm>-->
-
     <organization>
         <name>School of Computer Science at University of St Andrews</name>
         <url>https://www.st-andrews.ac.uk/computer-science/</url>
