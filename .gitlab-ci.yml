@@ -1,7 +1,11 @@
-image: maven:3.6.3-jdk-11
+maven_build:
 
-test:jdk11:
-    stage: test
-    script:
-        - 'mvn test'
-        
+  stage: test
+
+  tags:
+    - test
+
+  script:
+    - echo "Building project with maven"
+    - mvn verify
+    
