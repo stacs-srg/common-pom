@@ -1,11 +1,13 @@
+default:
+  image: maven:3.6-jdk-11
+
 maven_build:
 
   stage: test
 
-  image: maven:3.6-jdk-11
 
   script:
-    - 'mvn help:effective-settings'
     - echo "Building project with maven"
+    - 'mvn help:effective-settings'
     - mvn verify
     
