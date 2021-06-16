@@ -1,0 +1,5 @@
+test:jdk11:
+    stage: test
+    script:
+        - 'mvn test'
+        
