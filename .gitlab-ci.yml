@@ -6,7 +6,7 @@ maven_build:
     - test
 
   script:
-    - export
+    - 'mvn help:effective-settings'
     - echo "Building project with maven"
     - mvn verify
     
