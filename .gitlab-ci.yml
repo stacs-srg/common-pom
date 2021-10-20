@@ -3,11 +3,19 @@ default:
 
 maven_build:
 
-  stage: test
+  before_script:
+    # From: https://docs.gitlab.com/ee/ci/ssh_keys/index.html
+    
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
 
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
 
+    # Create the SSH directory and give it the right permissions
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    
   script:
-    - echo "Building project with maven"
-    - 'mvn help:effective-settings'
-    - mvn verify
+    - mvn deploy
     
