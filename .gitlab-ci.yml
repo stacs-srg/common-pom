@@ -1,3 +1,5 @@
+# This deploys to the local maven repository.
+
 default:
   image: maven:3.6-jdk-11
 
@@ -18,4 +20,3 @@ maven_build:
     
   script:
     - mvn deploy
-    

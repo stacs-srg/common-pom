@@ -54,8 +54,6 @@
 
         <junit.version>4.13.2</junit.version>
         <commons-math3-version>3.6.1</commons-math3-version>
-        <neo4j-version>4.2.7</neo4j-version>
-        <neo4j-java-driver-version>4.3.1</neo4j-java-driver-version>
 
         <license-maven-plugin.version>4.1</license-maven-plugin.version>
         <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
@@ -116,18 +114,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>${commons-math3-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j</artifactId>
-            <version>${neo4j-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.neo4j.driver</groupId>
-            <artifactId>neo4j-java-driver</artifactId>
-            <version>${neo4j-java-driver-version}</version>
         </dependency>
 
     </dependencies>
@@ -263,64 +249,5 @@
         </profile>
 
     </profiles>
-
-    <developers>
-        <developer>
-            <id/>
-            <name>Alan Dearle</name>
-            <email>alan.dearle@st-andrews.ac.uk</email>
-            <url>https://al.host.cs.st-andrews.ac.uk/</url>
-            <organization>University of St Andrews</organization>
-            <organizationUrl>https://www.st-andrews.ac.uk/</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-
-        <developer>
-            <id/>
-            <name>Graham Kirby</name>
-            <email>graham.kirby@st-andrews.ac.uk</email>
-            <url>https://graham.host.cs.st-andrews.ac.uk/</url>
-            <organization>University of St Andrews</organization>
-            <organizationUrl>https://www.st-andrews.ac.uk/</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-
-        <developer>
-            <id/>
-            <name>Özgür Akgün</name>
-            <email>ozgur.akgun@st-andrews.ac.uk</email>
-            <url>https://ozgur.host.cs.st-andrews.ac.uk/</url>
-            <organization>University of St Andrews</organization>
-            <organizationUrl>https://www.st-andrews.ac.uk/</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-
-        <developer>
-            <id/>
-            <name>Tom Dalton</name>
-            <email>tsd4@st-andrews.ac.uk</email>
-            <organization>University of St Andrews</organization>
-            <organizationUrl>https://www.st-andrews.ac.uk/</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-    </developers>
-
-    <contributors>
-        <contributor>
-            <name>Masih Hajiarab Derkani</name>
-            <organization>Previously University of St Andrews</organization>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </contributor>
-    </contributors>
 
 </project>
