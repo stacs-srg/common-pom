@@ -50,7 +50,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <jdk.version>21</jdk.version>
-        <maven-minimum.version>3.9.6</maven-minimum.version>
+        <maven-minimum.version>3.6.3</maven-minimum.version>
 
         <junit.version>5.10.2</junit.version>
         <commons-math3-version>3.6.1</commons-math3-version>
